@@ -1,0 +1,28 @@
+
+version: '3.8'
+ 
+services:
+  pytorch:
+    #image: cr.cynapse.ai/cv/pytorch:yolov8
+    build:
+      context: .
+      dockerfile: Dockerfile
+    shm_size: 40g  # Set the shared memory size here
+    mem_limit: 40g
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+    ports:
+      - 6006:6006
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - PUID=1000
+      - PGID=1000
+      - TORCH_DISTRIBUTED_DEBUG=DETAIL
+    volumes:
+      - .:/app
+    command: python /app/train2.py
