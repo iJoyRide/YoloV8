@@ -3,10 +3,10 @@ version: '3.8'
  
 services:
   pytorch:
-    #image: cr.cynapse.ai/cv/pytorch:yolov8
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: cr.cynapse.ai/cv/pytorch:yolov8
+      #build:
+      #context: .
+      #dockerfile: Dockerfile
     shm_size: 40g  # Set the shared memory size here
     mem_limit: 40g
     deploy:
@@ -25,4 +25,4 @@ services:
       - TORCH_DISTRIBUTED_DEBUG=DETAIL
     volumes:
       - .:/app
-    command: python /app/train2.py
+    command: bash /app/run.sh
